@@ -1,2 +1,11 @@
 # stats220
 Mimi Nguyen - Stats 220 S1/2026
+This is my repo for STATS 220. 
+
+A little about me:
+
+- I am undertaking a conjoint degree in Bachelor of Commerce (Accounting & Business Analytics) and Bachelor of Science (Statistics).
+- I am taking STATS 220 because I have just officially signed myself up to start a conjoint with Statistics as part of it, along with my existing degree. I have taken Stats 100, and Anne has always recommended this course to me, so it would be nice to give it a try now that I have the chance.
+- I am interested in learning to understand better the code I am writing and use it to carry out statistical analysis. Having done a few papers that involved R before, I still lack confidence in the coding I used, as I did not have a deep understanding of it. I want to use Stats 220 as an opportunity to understand, rather than copy and paste from the coursebook.
+
+A meme that captures how I currently feel about my university studies is ![](https://tenor.com/bsmea.gif)
