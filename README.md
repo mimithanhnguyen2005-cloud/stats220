@@ -1,5 +1,4 @@
 # stats220
-Mimi Nguyen - Stats 220 S1/2026
 This is my repo for STATS 220. 
 
 A little about me:
