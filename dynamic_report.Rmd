@@ -1,0 +1,157 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(magick))
+```
+
+```{css}
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Merriweather');
+
+body {
+  font-family: 'Poppins';
+  background-color: #F8F9FA;
+  color: #344E41;
+  line-height: 1.6;
+}
+
+h2 {
+  font-family: 'Merriweather';
+  font-size: 36px;
+  color: #344E41;
+  background-color: #CCD5AE;
+  padding: 14px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+h3 {
+  font-family: 'Merriweather';
+  font-size: 26px;
+  color: #344E41;
+  background-color: #E9EDC9;
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+p {
+  font-size: 16px;
+}
+
+img {
+  display: block;
+  margin: 20px auto;
+}
+
+figure {
+  text-align: center;
+}
+```
+
+## A snapshot of students' study breaks
+```{r}
+#Read survey response
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-4ALIuD7LTPFVJz39UB452ycH7GKS6wy3dkNK_x0hdQb_frktGseG3iuOk_9-MVwaZBYYMmLjKIMp/pub?gid=190495734&single=true&output=csv")
+
+
+#Assign new name to columns, remove timestamp and add id to each row
+latest_data <- logged_data %>% 
+    rename( 
+      break_time_of_day = 2,
+      study_time_before_break = 3,
+      main_reason = 4,
+      break_length_mins = 5,
+      used_device = 6,
+      physical_activity = 7,
+      ate_or_drank = 8,
+      refreshed_score = 9) #Rename column
+```
+
+### Who responded?
+This survey recorded **`r nrow(latest_data)` study breaks** from University of Auckland students, with most respondents coming from the ***Law and Business Schools***.
+![](https://pbs.twimg.com/media/GZZ0EhXWwAABhnr.jpg)
+
+### FYI
+For this survey, a **study break** means a temporary stop during studying where you intended to return to study afterwards. We are focusing on breaks that last about **5 to 120 minutes**, rather than very brief pauses or ending study for the day. 📚☕🧠  
+
+### Will these numbers suprise you??
+```{r}
+mean_break_time <- mean(latest_data$break_length_mins, na.rm = TRUE) #mean break time
+mean_refreshed <- mean(latest_data$refreshed_score, na.rm = TRUE) #mean refreshed score
+#Most popular reason and counts
+most_popular_reason <- latest_data %>%
+  count(main_reason) %>%
+  slice_max(n, n = 1) %>% 
+  pull(main_reason)
+
+most_popular_reason_count <- latest_data %>%
+  count(main_reason) %>%
+  slice_max(n, n = 1) %>%
+  pull(n)
+```
+These summary values give a quick snapshot of how students paused, recharged, and returned to study.
+
+* On average, students took breaks lasting **`r round(mean_break_time,1)` minutes**.
+* The average refreshed score after a break was **`r round(mean_refreshed,1)` out of 5**.
+* The most common reason for taking a break was **`r most_popular_reason`**, chosen by **`r most_popular_reason_count` out of `r nrow(latest_data)`** breaks recorded in this survey.
+
+### When do students hit pause?
+The first chart shows when students most commonly took study breaks during the day. This helps reveal whether breaks were more common in the morning, afternoon, or evening.
+
+```{r}
+break_time_bar <- latest_data %>%
+  ggplot(aes(x = break_time_of_day)) +
+  geom_bar(fill = "#E2ECE9", color = "black") +
+  labs(
+    title = "When students took study breaks",
+    subtitle = "Number of study breaks taken in the morning, afternoon, and evening.",
+    x = "Time of day",
+    y = "Number of study breaks") +
+  theme_bw() 
+break_time_bar
+```
+
+### Do devices change the break experience?
+This chart compares refreshed scores for students who used an electronic device during their break and those who did not. Since many students spend their breaks on phones or laptops, this gives an interesting look at whether screen use is connected to how refreshing the break feels.
+
+```{r}
+refreshed_device_bar <- latest_data %>%
+  ggplot(aes(x = factor(refreshed_score), fill = used_device)) +
+  geom_bar(position = "dodge", color = "black") +
+  labs(
+    title = "Refresh score by electronic device use during the break",
+    subtitle = "Refreshed scores for students who did and did not use an electronic device during their break.",
+    x = "Refreshed score",
+    y = "Number of study breaks",
+    fill = "Used device") +
+  theme_bw() +
+  scale_fill_manual(values = c("#CDB4DB", "#BDE0FE"))
+refreshed_device_bar
+```
+
+### Does moving help students feel more refreshed?
+The next chart compares refreshed scores for students who did and did not do physical activity during their break. This is useful for exploring whether movement, such as walking or stretching, is linked to feeling more refreshed afterwards.
+
+```{r}
+refreshed_physical_activity_bar <- latest_data %>%
+  ggplot(aes(x = factor(refreshed_score), fill = physical_activity)) +
+  geom_bar(position = "dodge", color = "black") +
+  labs(
+    title = "Refresh score by physical activity during the break",
+    subtitle = "Refreshed scores for students who did and did not do physical activity during their break.",
+    x = "Refreshed score",
+    y = "Number of study breaks",
+    fill = "Physical activity") +
+  theme_bw() +
+  scale_fill_manual(values = c("#A8DADC", "#FFE5EC"))
+refreshed_physical_activity_bar
+```
+
+### Final thoughts
+At the end of the day, every student needs a break but not every break feels the same.
+![](https://media1.tenor.com/m/vQzZaFO7Tl4AAAAd/relaxing-chill.gif)
