@@ -54,7 +54,7 @@ figure {
 ```{r}
 library(tidyverse)
 ```
-## Are you ready  📚☕
+## Are you ready to learn about study break☕??????
 ![](https://media1.tenor.com/m/c85gJ_y8b-sAAAAC/spongebob-are-you-ready-to-go-crazy.gif)
 ```{r}
 #Read survey response
