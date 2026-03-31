@@ -54,7 +54,8 @@ figure {
 ```{r}
 library(tidyverse)
 ```
-## A snapshot of students' study breaks
+## Are you ready  📚☕
+![](https://media1.tenor.com/m/c85gJ_y8b-sAAAAC/spongebob-are-you-ready-to-go-crazy.gif)
 ```{r}
 #Read survey response
 logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-4ALIuD7LTPFVJz39UB452ycH7GKS6wy3dkNK_x0hdQb_frktGseG3iuOk_9-MVwaZBYYMmLjKIMp/pub?gid=190495734&single=true&output=csv")
@@ -73,14 +74,14 @@ latest_data <- logged_data %>%
       refreshed_score = 9) #Rename column
 ```
 
-### Who responded?
+### Who responded? 👥
 This survey recorded **`r nrow(latest_data)` study breaks** from University of Auckland students, with most respondents coming from the ***Law and Business Schools***.
 ![](https://pbs.twimg.com/media/GZZ0EhXWwAABhnr.jpg)
 
-### FYI
+### FYI 💡
 For this survey, a **study break** means a temporary stop during studying where you intended to return to study afterwards. We are focusing on breaks that last about **5 to 120 minutes**, rather than very brief pauses or ending study for the day. 📚☕🧠  
 
-### Will these numbers suprise you?
+### Will these numbers surprise you? 🤔📊
 ```{r}
 mean_break_time <- mean(latest_data$break_length_mins, na.rm = TRUE) #mean break time
 mean_refreshed <- mean(latest_data$refreshed_score, na.rm = TRUE) #mean refreshed score
@@ -101,7 +102,7 @@ These summary values give a quick snapshot of how students paused, recharged, an
 * The average refreshed score after a break was **`r round(mean_refreshed,1)` out of 5**.
 * The most common reason for taking a break was **`r most_popular_reason`**, chosen by **`r most_popular_reason_count` out of `r nrow(latest_data)`** breaks recorded in this survey.
 
-### When do students hit pause?
+### When do students hit pause? ⏰
 The first chart shows when students most commonly took study breaks during the day. This helps reveal whether breaks were more common in the morning, afternoon, or evening.
 
 ```{r}
@@ -117,7 +118,7 @@ break_time_bar <- latest_data %>%
 break_time_bar
 ```
 
-### Do devices change the break experience?
+### Do devices change the break experience? 📱💻
 This chart compares refreshed scores for students who used an electronic device during their break and those who did not. Since many students spend their breaks on phones or laptops, this gives an interesting look at whether screen use is connected to how refreshing the break feels.
 
 ```{r}
@@ -135,7 +136,7 @@ refreshed_device_bar <- latest_data %>%
 refreshed_device_bar
 ```
 
-### Does moving help students feel more refreshed?
+### Does moving help students feel more refreshed? 🚶✨
 The next chart compares refreshed scores for students who did and did not do physical activity during their break. This is useful for exploring whether movement, such as walking or stretching, is linked to feeling more refreshed afterwards.
 
 ```{r}
@@ -153,6 +154,6 @@ refreshed_physical_activity_bar <- latest_data %>%
 refreshed_physical_activity_bar
 ```
 
-### Final thoughts
-At the end of the day, every student needs a break but not every break feels the same.
+### Final thoughts 💭☕
+***At the end of the day, every student needs a break but not every break feels the same.***
 ![](https://media1.tenor.com/m/vQzZaFO7Tl4AAAAd/relaxing-chill.gif)
